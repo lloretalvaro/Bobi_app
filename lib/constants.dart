@@ -5,3 +5,5 @@ const kRegularTextStyle = TextStyle(
   fontSize: 23,
   fontWeight: FontWeight.w600,
 );
+
+const Color kColorWelcomeScreen = Color(0xFFA2B4E2);
