@@ -6,4 +6,4 @@ const kRegularTextStyle = TextStyle(
   fontWeight: FontWeight.w600,
 );
 
-const Color kColorWelcomeScreen = Color(0xFFA2B4E2);
+const Color kColorScaffold = Color(0xFFA2B4E2);

@@ -21,7 +21,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         onPressed: () {
           // Navigator.pushNamed(context, AuthMain.id);
         },
-        color: Colors.blue[700],
       ),
     );
   }
@@ -35,7 +34,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         onPressed: () {
           Navigator.pushNamed(context, LoginScreen.id);
         },
-        color: Colors.blue[700],
       ),
     );
   }
@@ -43,17 +41,17 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kColorWelcomeScreen,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
               child: Image.asset('assets/images/bobi_logo.png'),
-              height: MediaQuery.of(context).size.height / 8,
+              height: MediaQuery.of(context).size.height / 6,
             ),
+            Text('hey'),
             SizedBox(
-              height: 10,
+              height: 20,
             ),
             loginButton(),
             registrationButton(),
