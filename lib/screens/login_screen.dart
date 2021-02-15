@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-
+/** 
 import 'package:flutter/material.dart';
 
 import 'dart:convert';
@@ -7,17 +6,9 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-
-import '../components/profile_widget.dart';
+import 'package:bobi_app/constants.dart';
+import 'profile_screen.dart';
 import '../components/login_widget.dart';
-
-final FlutterAppAuth appAuth = FlutterAppAuth();
-const FlutterSecureStorage secureStorage = FlutterSecureStorage();
-
-const String AUTH_DOMAIN = 'eu-de.appid.cloud.ibm.com/oauth/v4/692743c7-d888-4087-8f01-7144f69d059e';
-const String AUTH_CLIENT_ID = '5c16b981-a508-45b8-a11f-3b34bd8a3c42';
-const String AUTH_REDIRECT_URI = 'com.bobiapp.auth://login-callback';
-const String AUTH_ISSUER = 'https://$AUTH_DOMAIN';
 
 class LoginScreen extends StatefulWidget {
   static const id = '/login';
@@ -34,8 +25,6 @@ class _LoginScreenState extends State<LoginScreen> {
   String name;
   String picture;
 
-
-
   Map<String, dynamic> parseIdToken(String idToken) {
     final parts = idToken.split(r'.');
     assert(parts.length == 3);
@@ -45,7 +34,8 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<Map<String, dynamic>> getUserDetails(String accessToken) async {
-    final url = 'https://eu-de.appid.cloud.ibm.com/oauth/v4/692743c7-d888-4087-8f01-7144f69d059e/userinfo';
+    final url =
+        'https://eu-de.appid.cloud.ibm.com/oauth/v4/692743c7-d888-4087-8f01-7144f69d059e/userinfo';
     final response = await http.get(
       url,
       headers: {'Authorization': 'Bearer $accessToken'},
@@ -66,11 +56,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
     try {
       final AuthorizationTokenResponse result =
-      await appAuth.authorizeAndExchangeCode(
+          await appAuth.authorizeAndExchangeCode(
         AuthorizationTokenRequest(
-          AUTH_CLIENT_ID,
-          AUTH_REDIRECT_URI,
-          issuer: 'https://$AUTH_DOMAIN',
+          kAUTH_CLIENT_ID,
+          kAUTH_REDIRECT_URI,
+          issuer: 'https://$kAUTH_DOMAIN',
           scopes: ['openid', 'profile', 'offline_access'],
           // promptValues: ['login']
         ),
@@ -99,8 +89,6 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-
-
   void logoutAction() async {
     await secureStorage.delete(key: 'refresh_token');
     setState(() {
@@ -108,10 +96,6 @@ class _LoginScreenState extends State<LoginScreen> {
       isBusy = false;
     });
   }
-
-
-
-
 
   @override
   void initState() {
@@ -129,9 +113,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
     try {
       final response = await appAuth.token(TokenRequest(
-        AUTH_CLIENT_ID,
-        AUTH_REDIRECT_URI,
-        issuer: AUTH_ISSUER,
+        kAUTH_CLIENT_ID,
+        kAUTH_REDIRECT_URI,
+        issuer: kAUTH_ISSUER,
         refreshToken: storedRefreshToken,
       ));
 
@@ -152,32 +136,21 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-
-
-
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Auth0 Demo',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Auth0 Demo'),
-        ),
-        body: Center(
-          child: isBusy
-              ? CircularProgressIndicator()
-              : isLoggedIn
-              ? Profile(logoutAction, name, picture)
-              : Login(loginAction, errorMessage),
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Login'),
+      ),
+      body: Center(
+        child: isBusy
+            ? CircularProgressIndicator()
+            : isLoggedIn
+                ? ProfileScreen(logoutAction, name, picture)
+                : Login(loginAction, errorMessage),
       ),
     );
   }
-
-
 }
 
-
-
-
+*/

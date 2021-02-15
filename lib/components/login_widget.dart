@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-
 class Login extends StatelessWidget {
-  final loginAction;
+  final Function loginAction;
   final String loginError;
 
   const Login(this.loginAction, this.loginError);
@@ -12,6 +11,7 @@ class Login extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
+        Text('Pulsa para '),
         RaisedButton(
           onPressed: () {
             loginAction();

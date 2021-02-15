@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:oauth2_client/oauth2_client.dart';
-import 'package:oauth2_client/google_oauth2_client.dart';
-import 'package:oauth2_client/oauth2_helper.dart';
-import 'package:http/http.dart' as http;
 import 'package:bobi_app/ibmoauthclient.dart';
 import 'package:oauth2_client/access_token_response.dart';
 
@@ -33,7 +30,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }
 
   Future<void> pruebaConIBM() async {
-    OAuth2Client ibmClient = await IBMOAuth2Client(
+    OAuth2Client ibmClient = IBMOAuth2Client(
         redirectUri: 'com.example.bobi_app://oauth2redirect',
         customUriScheme: 'com.example.bobi_app');
 
