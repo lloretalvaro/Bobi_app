@@ -6,6 +6,8 @@ import 'package:http/http.dart' as http;
 import 'package:bobi_app/ibmoauthclient.dart';
 import 'package:oauth2_client/access_token_response.dart';
 
+import 'package:google_sign_in/google_sign_in.dart';
+
 class RegistrationScreen extends StatefulWidget {
   static const id = '/registration';
   @override
@@ -14,25 +16,20 @@ class RegistrationScreen extends StatefulWidget {
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
   Future<void> pruebaOauth() async {
-    OAuth2Client googleClient = await GoogleOAuth2Client(
-        redirectUri:
-            'https://eu-de.appid.cloud.ibm.com/oauth/v4/692743c7-d888-4087-8f01-7144f69d059e/Google/callback',
-        customUriScheme: 'com.example.bobi_app');
-
-    //Request a token using the Client Credentials flow...
-    AccessTokenResponse token =
-        await googleClient.getTokenWithClientCredentialsFlow(
-      clientId:
-          '51602669948-dlpuk0cd41vpg282eb5g6beufikja1ll.apps.googleusercontent.com', //Your client id
-      clientSecret: 'kmnpJoCRsEv9TTi8FhfMGpbW', //Your client secret
+    GoogleSignIn _googleSignIn = GoogleSignIn(
+      scopes: [
+        'email',
+        'https://www.googleapis.com/auth/contacts.readonly',
+      ],
     );
 
-//Or, if you already have a token, check if it is expired and in case refresh it...
-    if (token.isExpired()) {
-      token = await googleClient.refreshToken(token.refreshToken);
+    try {
+      await _googleSignIn.signIn();
+    } catch (error) {
+      print(error);
     }
 
-    print(token);
+    print(_googleSignIn.currentUser.email);
   }
 
   Future<void> pruebaConIBM() async {

@@ -43,6 +43,9 @@ android {
         targetSdkVersion 29
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        manifestPlaceholders = [
+                'appAuthRedirectScheme': 'com.bobiapp.auth://login-callback'
+        ]
     }
 
     buildTypes {

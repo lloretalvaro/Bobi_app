@@ -1,7 +1,9 @@
+import 'package:bobi_app/screens/auth_main.dart';
 import 'package:flutter/material.dart';
 import 'package:bobi_app/constants.dart';
 import 'registration_screen.dart';
 import 'login_screen.dart';
+
 
 class WelcomeScreen extends StatefulWidget {
   static const id = '/';
@@ -17,7 +19,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       child: RaisedButton(
         child: Text('Registration'),
         onPressed: () {
-          Navigator.pushNamed(context, RegistrationScreen.id);
+          // Navigator.pushNamed(context, AuthMain.id);
         },
         color: Colors.blue[700],
       ),

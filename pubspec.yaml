@@ -17,6 +17,11 @@ dependencies:
   cupertino_icons: ^1.0.0
   responsive_framework: ^0.0.14
   oauth2_client: ^1.6.2
+  google_sign_in: ^4.5.9
+
+  http: ^0.12.1
+  flutter_appauth: ^0.9.1
+  flutter_secure_storage: ^3.3.3
 
 dev_dependencies:
   flutter_test:
