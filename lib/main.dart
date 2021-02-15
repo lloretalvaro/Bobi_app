@@ -1,3 +1,4 @@
+import 'package:bobi_app/constants.dart';
 import 'package:flutter/material.dart';
 import 'screens/faq_screen.dart';
 import 'screens/inventory_screen.dart';
@@ -14,7 +15,10 @@ class BobiApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark(),
+      theme: ThemeData.dark().copyWith(
+        buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+        textTheme: TextTheme(body1: kRegularTextStyle),
+      ),
       initialRoute: WelcomeScreen.id,
       routes: {
         WelcomeScreen.id: (context) => WelcomeScreen(),
