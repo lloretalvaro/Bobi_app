@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:bobi_app/components/custom_button.dart';
 
 class ProfileScreen extends StatelessWidget {
+  ProfileScreen(this.logoutAction, this.name, this.picture);
+
   //static const id = '/profile';
-  final logoutAction;
+  final Function logoutAction;
   final String name;
   final String picture;
-
-  ProfileScreen(this.logoutAction, this.name, this.picture);
 
   @override
   Widget build(BuildContext context) {
@@ -27,15 +28,9 @@ class ProfileScreen extends StatelessWidget {
                     backgroundImage: NetworkImage(picture),
                     radius: 50,
                   ),
-            SizedBox(height: 24.0),
+            SizedBox(height: 20.0),
             name == null ? Text('Nombre: usuario') : Text('Nombre: $name'),
-            SizedBox(height: 48.0),
-            RaisedButton(
-              onPressed: () {
-                logoutAction();
-              },
-              child: Text('Cerrar session'),
-            ),
+            CustomButton(textString: 'Cerrar sesion', onPress: logoutAction),
           ],
         ),
       ),

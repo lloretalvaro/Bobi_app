@@ -1,4 +1,5 @@
 import 'package:bobi_app/app_id_logic.dart';
+import 'package:bobi_app/components/custom_button.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -6,7 +7,6 @@ import 'profile_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:bobi_app/constants.dart';
-import 'registration_screen.dart';
 
 final FlutterAppAuth appAuth = FlutterAppAuth();
 const FlutterSecureStorage secureStorage = FlutterSecureStorage();
@@ -117,7 +117,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       child: RaisedButton(
         child: Text('Registration //a lo mejor lo quitamos'),
         onPressed: () {
-          Navigator.pushNamed(context, RegistrationScreen.id);
+          print('el antiguo si');
         },
       ),
     );
@@ -125,34 +125,33 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   //TODO: Take into account the isBusy to show a CircularProgressIndicator()
   Widget loginButton(BuildContext context) {
-    return ButtonTheme(
-      minWidth: MediaQuery.of(context).size.width / 1.5,
-      height: MediaQuery.of(context).size.height / 18,
-      child: RaisedButton(
-        child: Text(
-          'Entrar',
-          style: kRegularTextStyle,
-        ),
-        onPressed: () {
-          if (isLoggedIn) {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        ProfileScreen(logoutAction, name, picture)));
-          } else {
-            loginAction();
-          }
-          /** 
-          if (true) {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ProfileScreen(() {}, null, null)));
-          }
-          */
-        },
-      ),
+    return CustomButton(
+      textString: 'Entrar',
+      onPress: () async {
+        if (isLoggedIn) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      ProfileScreen(logoutAction, name, picture)));
+        } else {
+          await loginAction();
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      ProfileScreen(logoutAction, name, picture)));
+        }
+
+        /*
+        if (true) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ProfileScreen(() {}, null, null)));
+        }
+        */
+      },
     );
   }
 
@@ -176,9 +175,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               margin: EdgeInsets.fromLTRB(0, 70, 0, 40),
             ),
             loginButton(context),
-            SizedBox(
-              height: 20,
-            ),
             registrationButton(),
           ],
         ),

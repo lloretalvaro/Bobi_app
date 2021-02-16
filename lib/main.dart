@@ -18,12 +18,11 @@ class BobiApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark().copyWith(
         buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
-        textTheme: TextTheme(body1: kRegularTextStyle),
+        textTheme: TextTheme(bodyText2: kRegularTextStyle),
       ),
       initialRoute: WelcomeScreen.id,
       routes: {
         WelcomeScreen.id: (context) => WelcomeScreen(),
-        //LoginScreen.id: (context) => LoginScreen(),
         RegistrationScreen.id: (context) => RegistrationScreen(),
         NotifyScreen.id: (context) => NotifyScreen(),
         InventoryScreen.id: (context) => InventoryScreen(),
