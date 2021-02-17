@@ -4,7 +4,7 @@ import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'profile_screen.dart';
-
+import 'feature_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:bobi_app/constants.dart';
 
@@ -128,6 +128,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     return CustomButton(
       textString: 'Entrar',
       onPress: () async {
+        /*
         if (isLoggedIn) {
           Navigator.push(
               context,
@@ -142,15 +143,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   builder: (context) =>
                       ProfileScreen(logoutAction, name, picture)));
         }
+*/
 
-        /*
         if (true) {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ProfileScreen(() {}, null, null)));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => FeatureScreen()));
         }
-        */
       },
     );
   }
@@ -164,19 +162,21 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Bobi', style: kWelcomeTitleTextStyle),
-            Container(
-              child: Image.asset('assets/images/bobi_logo.png'),
-              height: MediaQuery.of(context).size.height / 6,
-              margin: EdgeInsets.fromLTRB(0, 70, 0, 40),
-            ),
-            loginButton(context),
-            registrationButton(),
-          ],
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Bobi', style: kWelcomeTitleTextStyle),
+              Container(
+                child: Image.asset('assets/images/bobi_logo.png'),
+                height: MediaQuery.of(context).size.height / 6,
+                margin: EdgeInsets.fromLTRB(0, 70, 0, 40),
+              ),
+              loginButton(context),
+              registrationButton(),
+            ],
+          ),
         ),
       ),
     );
