@@ -3,7 +3,6 @@ import 'package:bobi_app/components/custom_button.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import 'profile_screen.dart';
 import 'feature_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:bobi_app/constants.dart';

@@ -13,6 +13,25 @@ const kWelcomeTitleTextStyle = TextStyle(
   fontFamily: 'FredokaOne',
 );
 
+const Color kFeatureExplanationColor = Color(0xFF1D1E33);
+
+const kTextFieldInputDecoration = InputDecoration(
+    filled: true,
+    fillColor: Colors.white,
+    icon: Icon(
+      Icons.notifications,
+      color: Colors.white,
+      size: 35,
+    ),
+    hintText: 'La notificación a enviar...',
+    hintStyle: TextStyle(
+      color: Colors.grey,
+    ),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(8)),
+      borderSide: BorderSide.none,
+    ));
+
 // AUTH RELATED
 const String kAUTH_DOMAIN =
     'eu-de.appid.cloud.ibm.com/oauth/v4/692743c7-d888-4087-8f01-7144f69d059e';
