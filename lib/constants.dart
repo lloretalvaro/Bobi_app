@@ -32,6 +32,30 @@ const kTextFieldInputDecoration = InputDecoration(
       borderSide: BorderSide.none,
     ));
 
+const kTextFieldInputPreguntaDecoration = InputDecoration(
+    filled: true,
+    fillColor: Colors.white,
+    hintText: 'Inserta tu pregunta...',
+    hintStyle: TextStyle(
+      color: Colors.grey,
+    ),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(8)),
+      borderSide: BorderSide.none,
+    ));
+
+const kTextFieldInputRespuestaDecoration = InputDecoration(
+    filled: true,
+    fillColor: Colors.white,
+    hintText: 'Inserta tu respuesta...',
+    hintStyle: TextStyle(
+      color: Colors.grey,
+    ),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(8)),
+      borderSide: BorderSide.none,
+    ));
+
 // AUTH RELATED
 const String kAUTH_DOMAIN =
     'eu-de.appid.cloud.ibm.com/oauth/v4/692743c7-d888-4087-8f01-7144f69d059e';

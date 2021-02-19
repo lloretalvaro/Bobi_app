@@ -18,7 +18,7 @@ class FeatureScreen extends StatelessWidget {
           IconButton(
             icon: Icon(
               Icons.person,
-              size: 30,
+              size: 35,
             ),
             onPressed: () {
               Navigator.push(
