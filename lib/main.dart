@@ -7,6 +7,7 @@ import 'screens/inventory_screen.dart';
 import 'screens/notify_screen.dart';
 import 'screens/registration_screen.dart';
 import 'screens/welcome_screen.dart';
+import 'screens/test.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 void main() => runApp(BobiApp());
@@ -27,6 +28,7 @@ class BobiApp extends StatelessWidget {
         NotifyScreen.id: (context) => NotifyScreen(),
         InventoryScreen.id: (context) => InventoryScreen(),
         FAQScreen.id: (context) => FAQScreen(),
+        PocApp.id: (context) => PocApp(),
         //ProfileScreen.id: (context) => ProfileScreen(logoutAction, name, picture)
       },
       builder: (context, widget) => ResponsiveWrapper.builder(

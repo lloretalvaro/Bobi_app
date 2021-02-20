@@ -1,27 +1,74 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'constants.dart';
 
 class AppIdLogic {
-  Map<String, dynamic> parseIdToken(String idToken) {
-    final parts = idToken.split(r'.');
-    assert(parts.length == 3);
+  String parseAuthCode(String idToken) {
+    // Get code from URI
+    // com.bobiapp.auth://login-callback?code=xxx&state=yyyy
+    RegExp exp = new RegExp(r"(\?|\&)([^=]+)\=([^\&]+)");
 
-    return jsonDecode(
-        utf8.decode(base64Url.decode(base64Url.normalize(parts[1]))));
+    var code;
+    try {
+      // ?code=xxx
+      code = exp.firstMatch(idToken).group(3);
+    } catch (e) {
+      throw new Exception("Authorization Code was not parsed correctly");
+    }
+
+    return code;
+  }
+
+  Future<Map<String, dynamic>> getAccessTokenFromAuthCode(String token) async {
+    // Get Token from Auth Code
+    // {{APPID_AUTH_SERVER_HOST}}/oauth/v4/{{APPID_TENANT_ID}}/authorization?client_id={{APPID_CLIENT_ID}}&redirect_uri={{REDIRECT_URI}}&scope=openid&response_type=code
+    var headers = {
+      'Authorization':
+          'Basic NWMxNmI5ODEtYTUwOC00NWI4LWExMWYtM2IzNGJkOGEzYzQyOk16VmlPVFJqTnpNdE9HVmhOUzAwTVRKakxUazFZamd0WWpNd056ZzJORFZrTnpVNA==',
+      // 'Cookie': '__cfduid=d2590d812445cc75498fa7dc96725e0281613134732' HOW TO GET THIS!
+    };
+    var request = http.MultipartRequest('POST', Uri.parse(kAUTH_TOKEN));
+    request.fields.addAll({
+      'grant_type': 'authorization_code',
+      'code': token,
+      'redirect_uri': kAUTH_REDIRECT_URI
+    });
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    var res;
+    if (response.statusCode == 200) {
+      var rawres = await response.stream.bytesToString();
+      res = jsonDecode(rawres);
+      print(res['access_token']);
+    } else {
+      print(response.reasonPhrase);
+    }
+
+    return res;
   }
 
   Future<Map<String, dynamic>> getUserDetails(String accessToken) async {
-    final url =
-        'https://eu-de.appid.cloud.ibm.com/oauth/v4/692743c7-d888-4087-8f01-7144f69d059e/userinfo';
-    final response = await http.get(
-      url,
-      headers: {'Authorization': 'Bearer $accessToken'},
-    );
+    var headers = {
+      'Authorization': 'Bearer $accessToken',
+      // 'Cookie': '__cfduid=d2590d812445cc75498fa7dc96725e0281613134732' how to get this?
+    };
+    var request = http.Request('GET', Uri.parse(kAUTH_USERINFO));
 
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    var res;
     if (response.statusCode == 200) {
-      return jsonDecode(response.body);
+      res = jsonDecode(await response.stream.bytesToString());
+      print(res);
     } else {
-      throw Exception('Failed to get user details');
+      print(response.reasonPhrase);
     }
+
+    return res;
   }
 }
