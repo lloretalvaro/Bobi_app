@@ -3,7 +3,7 @@ import 'package:bobi_app/constants.dart';
 import 'package:flutter/material.dart';
 import 'screens/faq_screen.dart';
 import 'screens/inventory_screen.dart';
-
+import 'screens/faq_screen_modification.dart';
 import 'screens/notify_screen.dart';
 import 'screens/registration_screen.dart';
 import 'screens/welcome_screen.dart';
@@ -28,7 +28,7 @@ class BobiApp extends StatelessWidget {
         NotifyScreen.id: (context) => NotifyScreen(),
         InventoryScreen.id: (context) => InventoryScreen(),
         FAQScreen.id: (context) => FAQScreen(),
-        PocApp.id: (context) => PocApp(),
+        FAQScreenModification.id: (context) => FAQScreenModification(),
         //ProfileScreen.id: (context) => ProfileScreen(logoutAction, name, picture)
       },
       builder: (context, widget) => ResponsiveWrapper.builder(
