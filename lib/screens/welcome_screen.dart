@@ -4,11 +4,15 @@ import 'package:bobi_app/screens/test.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import 'profile_screen.dart';
 import 'feature_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:bobi_app/constants.dart';
 
 import 'registration_screen.dart';
+
+import 'package:provider/provider.dart';
+import 'package:bobi_app/screens/bloc.dart';
 
 final FlutterAppAuth appAuth = FlutterAppAuth();
 const FlutterSecureStorage secureStorage = FlutterSecureStorage();
@@ -28,8 +32,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   //AppId functions, other 2 methods used here are implemented in app_id_logic.dart
   Future<void> loginAction() async {
-    print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-
     setState(() {
       isBusy = true;
       errorMessage = '';
@@ -61,9 +63,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       //     preferEphemeralSession: false,
       //   ),
       // );
-
-      print(result);
-      print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 
       final appId = AppIdLogic();
       final idToken = appId.parseAuthCode(result.idToken);
@@ -151,7 +150,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     return CustomButton(
       textString: 'Entrar',
       onPress: () async {
-        /*
         if (isLoggedIn) {
           Navigator.push(
               context,
@@ -166,12 +164,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   builder: (context) =>
                       ProfileScreen(logoutAction, name, picture)));
         }
-*/
 
+/**
         if (true) {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => FeatureScreen()));
         }
+         */
       },
     );
   }
@@ -184,21 +183,26 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    DeepLinkBloc _bloc = DeepLinkBloc();
     return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('Bobi', style: kWelcomeTitleTextStyle),
-              Container(
-                child: Image.asset('assets/images/bobi_logo.png'),
-                height: MediaQuery.of(context).size.height / 6,
-                margin: EdgeInsets.fromLTRB(0, 70, 0, 40),
-              ),
-              loginButton(context),
-              registrationButton(),
-            ],
+      body: Provider<DeepLinkBloc>(
+        create: (context) => _bloc,
+        dispose: (context, bloc) => bloc.dispose(),
+        child: SafeArea(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Bobi', style: kWelcomeTitleTextStyle),
+                Container(
+                  child: Image.asset('assets/images/bobi_logo.png'),
+                  height: MediaQuery.of(context).size.height / 6,
+                  margin: EdgeInsets.fromLTRB(0, 70, 0, 40),
+                ),
+                loginButton(context),
+                registrationButton(),
+              ],
+            ),
           ),
         ),
       ),
