@@ -50,7 +50,7 @@ class AppIdLogic {
     return res;
   }
 
-  Future<Map<String, dynamic>> getUserDetails(String accessToken) async {
+  Future<String> getUserDetails(String accessToken) async {
     var headers = {
       'Authorization': 'Bearer $accessToken',
       // 'Cookie': '__cfduid=d2590d812445cc75498fa7dc96725e0281613134732' how to get this?
@@ -63,7 +63,8 @@ class AppIdLogic {
 
     var res;
     if (response.statusCode == 200) {
-      res = jsonDecode(await response.stream.bytesToString());
+      // res = jsonDecode(await response.stream.bytesToString());
+      res = await response.stream.bytesToString();
       print(res);
     } else {
       print(response.reasonPhrase);

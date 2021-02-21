@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:bobi_app/screens/bloc.dart';
 
 class PocApp extends StatelessWidget {
-  // This widget is the root of your application.
   static const id = "PocApp";
 
   @override

@@ -31,13 +31,16 @@ class DeepLinkBloc extends Bloc {
   _onRedirected(String uri) async {
     // Here can be any uri analysis, checking tokens etc, if it’s necessary
     // Throw deep link URI into the BloC's stream
-    print(uri);
+    // print(uri);
     final AppIdLogic logic = AppIdLogic();
     final code = logic.parseAuthCode(uri);
-    print(code);
+    // print(code);
     final accessToken = await logic.getAccessTokenFromAuthCode(code);
-    logic.getUserDetails(accessToken['access_token']);
-    // stateSink.add(uri);
+    final userData = logic.getUserDetails(accessToken['access_token']);
+
+    // await secureStorage.write(
+    //       key: 'refresh_token', value: result.refreshToken);
+    stateSink.add(await userData);
   }
 
   @override

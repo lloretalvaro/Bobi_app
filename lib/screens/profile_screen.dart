@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:bobi_app/components/custom_button.dart';
+import 'dart:convert';
 
 class ProfileScreen extends StatelessWidget {
-  ProfileScreen(this.logoutAction, this.name, this.picture);
+  ProfileScreen(logoutAction, data) {
+    this.logoutAction = logoutAction;
+
+    Map userMap = jsonDecode(data);
+    this.name = userMap['name'];
+  }
 
   //static const id = '/profile';
-  final Function logoutAction;
-  final String name;
-  final String picture;
+  Function logoutAction;
+  String name;
+  String picture;
 
   @override
   Widget build(BuildContext context) {

@@ -24,8 +24,7 @@ class FeatureScreen extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          ProfileScreen(() {}, 'Pepito', null)));
+                      builder: (context) => ProfileScreen(() {}, 'Pepito')));
             },
           )
         ],
