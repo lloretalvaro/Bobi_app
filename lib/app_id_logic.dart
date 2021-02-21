@@ -42,7 +42,6 @@ class AppIdLogic {
     if (response.statusCode == 200) {
       var rawres = await response.stream.bytesToString();
       res = jsonDecode(rawres);
-      print(res['access_token']);
     } else {
       print(response.reasonPhrase);
     }
@@ -65,7 +64,6 @@ class AppIdLogic {
     if (response.statusCode == 200) {
       // res = jsonDecode(await response.stream.bytesToString());
       res = await response.stream.bytesToString();
-      print(res);
     } else {
       print(response.reasonPhrase);
     }
