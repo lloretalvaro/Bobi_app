@@ -40,6 +40,7 @@ class _FAQScreenState extends State<FAQScreen> {
           setState(() {
             if (faq != null) {
               faqs.add(faq);
+              //TODO: Tendriamos que guardar aqui el nuevo faq en la BD
             }
           });
         },

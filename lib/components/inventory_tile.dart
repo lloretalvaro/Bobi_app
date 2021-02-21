@@ -1,40 +1,40 @@
-import 'package:bobi_app/screens/faq_screen_modification.dart';
+import 'package:bobi_app/screens/inventory_screen_modification.dart';
 import 'package:flutter/material.dart';
 import 'package:bobi_app/constants.dart';
-import 'package:bobi_app/models/faq.dart';
+import 'package:bobi_app/models/inventory.dart';
 
-class FAQTile extends StatefulWidget {
-  FAQTile({@required this.preguntaTile, @required this.respuestaTile});
+class InventoryTile extends StatefulWidget {
+  InventoryTile({@required this.articuloTile, @required this.cantidadTile});
 
-  String preguntaTile;
-  String respuestaTile;
+  String articuloTile;
+  String cantidadTile;
 
   @override
-  _FAQTileState createState() => _FAQTileState();
+  _InventoryTileState createState() => _InventoryTileState();
 }
 
-class _FAQTileState extends State<FAQTile> {
+class _InventoryTileState extends State<InventoryTile> {
   @override
   Widget build(BuildContext context) {
     return RawMaterialButton(
       onPressed: () async {
-        var faq = await Navigator.push(
+        var inventory = await Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => FAQScreenModification(
+            builder: (context) => InventoryScreenModification(
               preguntaInputDecoration: kTextFieldInputPreguntaDecoration
-                  .copyWith(hintText: widget.preguntaTile),
+                  .copyWith(hintText: widget.articuloTile),
               respuestaInputDecoration: kTextFieldInputRespuestaDecoration
-                  .copyWith(hintText: widget.respuestaTile),
+                  .copyWith(hintText: widget.cantidadTile),
             ),
           ),
         );
 
-        if (faq != null) {
+        if (inventory != null) {
           setState(() {
-            FAQ faqConvertido = faq;
-            widget.preguntaTile = faqConvertido.getPregunta();
-            widget.respuestaTile = faqConvertido.getRespuesta();
+            Inventory inventoryConvertido = inventory;
+            widget.articuloTile = inventoryConvertido.getArticulo();
+            widget.cantidadTile = inventoryConvertido.getCantidad().toString();
           });
         }
       },
@@ -49,11 +49,11 @@ class _FAQTileState extends State<FAQTile> {
           children: [
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child: Text('P: ${widget.preguntaTile}'),
+              child: Text('Articulo: ${widget.articuloTile}'),
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child: Text('R: ${widget.respuestaTile}',
+              child: Text('Cantidad: ${widget.cantidadTile}',
                   style: TextStyle(color: Colors.grey)),
             ),
           ],
