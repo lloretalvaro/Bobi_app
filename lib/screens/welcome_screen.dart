@@ -1,6 +1,6 @@
 import 'package:bobi_app/app_id_logic.dart';
 import 'package:bobi_app/components/custom_button.dart';
-import 'package:bobi_app/screens/test.dart';
+
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -138,8 +138,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       child: RaisedButton(
         child: Text('Registration //a lo mejor lo quitamos'),
         onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => RegistrationScreen()));
+          if (true) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => FeatureScreen()));
+          }
         },
       ),
     );

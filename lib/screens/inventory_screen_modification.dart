@@ -1,23 +1,25 @@
-import 'package:bobi_app/models/faq.dart';
+import 'package:bobi_app/models/inventory.dart';
 import 'package:flutter/material.dart';
 import 'package:bobi_app/constants.dart';
 import 'package:bobi_app/components/custom_button.dart';
 
-class FAQScreenModification extends StatefulWidget {
-  static const id = '/FAQmodification';
+class InventoryScreenModification extends StatefulWidget {
+  static const id = '/inventorymodification';
 
-  FAQScreenModification(
+  InventoryScreenModification(
       {this.preguntaInputDecoration, this.respuestaInputDecoration});
   final InputDecoration preguntaInputDecoration;
   final InputDecoration respuestaInputDecoration;
 
   @override
-  _FAQScreenModificationState createState() => _FAQScreenModificationState();
+  _InventoryScreenModificationState createState() =>
+      _InventoryScreenModificationState();
 }
 
-class _FAQScreenModificationState extends State<FAQScreenModification> {
-  String pregunta;
-  String respuesta;
+class _InventoryScreenModificationState
+    extends State<InventoryScreenModification> {
+  String articulo;
+  int cantidad;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +33,7 @@ class _FAQScreenModificationState extends State<FAQScreenModification> {
               Padding(
                 padding: const EdgeInsets.only(top: 20),
                 child: Text(
-                  'Pregunta que quieras aclarar',
+                  'Articulo que quieres añadir',
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -42,15 +44,16 @@ class _FAQScreenModificationState extends State<FAQScreenModification> {
                     color: Colors.black,
                   ),
                   decoration: widget.preguntaInputDecoration ??
-                      kTextFieldInputPreguntaDecoration,
-                  onChanged: (value) => pregunta = value,
+                      kTextFieldInputPreguntaDecoration.copyWith(
+                          hintText: 'Inserta tu articulo...'),
+                  onChanged: (value) => articulo = value,
                 ),
               ),
               SizedBox(
                 height: 20,
               ),
               Text(
-                'Respuesta a la pregunta',
+                'Cantidad del articulo',
                 textAlign: TextAlign.center,
               ),
               Container(
@@ -60,8 +63,15 @@ class _FAQScreenModificationState extends State<FAQScreenModification> {
                     color: Colors.black,
                   ),
                   decoration: widget.respuestaInputDecoration ??
-                      kTextFieldInputRespuestaDecoration,
-                  onChanged: (value) => respuesta = value,
+                      kTextFieldInputRespuestaDecoration.copyWith(
+                          hintText: 'Inserta la cantidad...'),
+                  onChanged: (value) {
+                    try {
+                      cantidad = int.parse(value);
+                    } catch (e) {
+                      cantidad = -1;
+                    }
+                  },
                 ),
               ),
               Padding(
@@ -69,15 +79,15 @@ class _FAQScreenModificationState extends State<FAQScreenModification> {
                 child: CustomButton(
                     textString: 'Añadir',
                     onPress: () {
-                      FAQ faq;
-                      if (pregunta != '' &&
-                          pregunta != null &&
-                          respuesta != '' &&
-                          respuesta != null) {
-                        faq = FAQ(pregunta: pregunta, respuesta: respuesta);
+                      Inventory inventory;
+                      if (cantidad != null &&
+                          cantidad != -1 &&
+                          articulo != null &&
+                          articulo != '') {
+                        inventory =
+                            Inventory(articulo: articulo, cantidad: cantidad);
                       }
-
-                      Navigator.pop(context, faq);
+                      Navigator.pop(context, inventory);
                     }),
               )
             ],

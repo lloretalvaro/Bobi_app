@@ -18,12 +18,17 @@ class _NotifyScreenState extends State<NotifyScreen> {
       ),
       body: SafeArea(
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: ListView(
             children: [
-              Text('¿Qué quieres enviar a tus clientes?'),
+              Padding(
+                padding: const EdgeInsets.only(top: 100),
+                child: Text(
+                  '¿Qué quieres enviar a tus clientes?',
+                  textAlign: TextAlign.center,
+                ),
+              ),
               Container(
-                padding: EdgeInsets.symmetric(vertical: 50.0, horizontal: 40),
+                padding: EdgeInsets.all(40),
                 child: TextField(
                   style: TextStyle(
                     color: Colors.black,
@@ -32,17 +37,22 @@ class _NotifyScreenState extends State<NotifyScreen> {
                   onChanged: (value) => notificacion = value,
                 ),
               ),
-              CustomButton(
-                textString: 'Enviar',
-                onPress: () {
-                  //TODO: Aqui guardaría la notificacion en la BD,
-                  // despues python se daría cuenta y mandaría
-                  // dicha notifacion al chat de mensajeria
-                  notificacion == null
-                      ? print('Notifacion es nula')
-                      : print(notificacion);
-                },
-              )
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 50),
+                child: CustomButton(
+                  textString: 'Enviar',
+                  onPress: () {
+                    if (notificacion != null && notificacion != '') {
+                      print(notificacion);
+                      //TODO: Aqui guardaría la notificacion en la BD,
+                      // despues python se daría cuenta y mandaría
+                      // dicha notifacion al chat de mensajeria
+                    } else {
+                      print('Notifacion es nula');
+                    }
+                  },
+                ),
+              ),
             ],
           ),
         ),
