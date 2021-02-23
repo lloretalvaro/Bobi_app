@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:bobi_app/components/login/bloc.dart';
-import '../../screens/profile_screen.dart';
+import '../../screens/feature_screen.dart';
 
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -97,7 +97,7 @@ class PocWidget extends StatelessWidget {
                 )));
               } else {
                 // A callback was found, goto profile screen
-                return ProfileScreen(logoutAction, snapshot.data);
+                return FeatureScreen(logoutAction, snapshot.data);
               }
             },
           );
