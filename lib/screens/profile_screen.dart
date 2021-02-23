@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:bobi_app/components/custom_button.dart';
-import 'dart:convert';
+import 'package:bobi_app/models/usuario.dart';
 
 class ProfileScreen extends StatelessWidget {
-  ProfileScreen(logoutAction, data) {
+  ProfileScreen(Function logoutAction, Usuario usuario) {
     this.logoutAction = logoutAction;
-
-    Map userMap = jsonDecode(data);
-    this.name = userMap['name'];
+    this.name = usuario.getNombre();
   }
 
   //static const id = '/profile';
