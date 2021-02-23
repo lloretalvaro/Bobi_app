@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:bobi_app/app_id_logic.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 abstract class Bloc {
   void dispose();
@@ -13,6 +14,9 @@ class DeepLinkBloc extends Bloc {
 
   //Method channel creation
   static const platform = const MethodChannel('com.bobiapp.auth/channel');
+
+  // Secure Storage
+  static const FlutterSecureStorage secureStorage = FlutterSecureStorage();
 
   StreamController<String> _stateController = StreamController();
 
@@ -29,17 +33,20 @@ class DeepLinkBloc extends Bloc {
   }
 
   _onRedirected(String uri) async {
-    // Here can be any uri analysis, checking tokens etc, if it’s necessary
-    // Throw deep link URI into the BloC's stream
-    // print(uri);
     final AppIdLogic logic = AppIdLogic();
     final code = logic.parseAuthCode(uri);
-    // print(code);
+
+    // DICT_KEYS: (access_token, id_token, token_type, expires_in, refresh_token, scope)
     final accessToken = await logic.getAccessTokenFromAuthCode(code);
+    // print(accessToken.keys);
+    print(accessToken['refresh_token']);
+    // print(accessToken['token_type']);
+    // print(accessToken['access_token']);
+
     final userData = logic.getUserDetails(accessToken['access_token']);
 
-    // await secureStorage.write(
-    //       key: 'refresh_token', value: result.refreshToken);
+    secureStorage.write(
+        key: 'refresh_token', value: accessToken['refresh_token']);
     stateSink.add(await userData);
   }
 

@@ -8,6 +8,7 @@ import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:bobi_app/constants.dart';
+import 'package:bobi_app/app_id_logic.dart';
 
 final FlutterAppAuth appAuth = FlutterAppAuth();
 const FlutterSecureStorage secureStorage = FlutterSecureStorage();
@@ -20,16 +21,20 @@ class PocWidget extends StatelessWidget {
   void initAction() async {
     // Has the user made a login before? (refresh token is present)
     final storedRefreshToken = await secureStorage.read(key: 'refresh_token');
-    if (storedRefreshToken == null) return;
+    if (storedRefreshToken == null) {
+      print("RefreshToken Not found");
+      return;
+    } else {
+      print("found refresh token");
+      print(storedRefreshToken);
+    }
 
-    try {
-      final response = await appAuth.token(TokenRequest(
-        kAUTH_CLIENT_ID,
-        kAUTH_REDIRECT_URI,
-        issuer: kAUTH_ISSUER,
-        refreshToken: storedRefreshToken,
-      ));
-    } catch (e) {}
+    // try {
+    final AppIdLogic logic = AppIdLogic();
+    final accessToken = await logic.refreshToken(storedRefreshToken);
+    print(await logic.getUserDetails(accessToken['access_token']));
+
+    // } catch (e) {}
   }
 
   // Opens browser for Oauth login, callback is listened  with bloc.dart

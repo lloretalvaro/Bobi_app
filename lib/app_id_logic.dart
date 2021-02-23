@@ -49,6 +49,33 @@ class AppIdLogic {
     return res;
   }
 
+  Future<Map<String, dynamic>> refreshToken(String refreshToken) async {
+    var headers = {
+      'Authorization':
+          'Basic NWMxNmI5ODEtYTUwOC00NWI4LWExMWYtM2IzNGJkOGEzYzQyOk16VmlPVFJqTnpNdE9HVmhOUzAwTVRKakxUazFZamd0WWpNd056ZzJORFZrTnpVNA==',
+    };
+    var request = http.MultipartRequest('POST', Uri.parse(kAUTH_TOKEN));
+    request.fields.addAll({
+      'grant_type': 'refresh_token',
+      'refresh_token': refreshToken,
+      'redirect_uri': kAUTH_REDIRECT_URI
+    });
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    var res;
+    if (response.statusCode == 200) {
+      var rawres = await response.stream.bytesToString();
+      res = jsonDecode(rawres);
+    } else {
+      print(response.reasonPhrase);
+    }
+
+    return res;
+  }
+
   Future<String> getUserDetails(String accessToken) async {
     var headers = {
       'Authorization': 'Bearer $accessToken',
