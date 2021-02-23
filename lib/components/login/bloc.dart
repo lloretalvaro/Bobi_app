@@ -39,7 +39,7 @@ class DeepLinkBloc extends Bloc {
     // DICT_KEYS: (access_token, id_token, token_type, expires_in, refresh_token, scope)
     final accessToken = await logic.getAccessTokenFromAuthCode(code);
     // print(accessToken.keys);
-    print(accessToken['refresh_token']);
+    // print(accessToken['refresh_token']);
     // print(accessToken['token_type']);
     // print(accessToken['access_token']);
 

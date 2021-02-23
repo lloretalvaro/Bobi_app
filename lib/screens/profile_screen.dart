@@ -38,7 +38,15 @@ class ProfileScreen extends StatelessWidget {
                     ),
               SizedBox(height: 20.0),
               name == null ? Text('Nombre: usuario') : Text('Nombre: $name'),
-              CustomButton(textString: 'Cerrar sesion', onPress: logoutAction),
+              CustomButton(
+                  textString: 'Cerrar sesion',
+                  onPress: () {
+                    logoutAction();
+                    Navigator.popUntil(
+                      context,
+                      ModalRoute.withName('/'),
+                    );
+                  }),
             ],
           ),
         ),

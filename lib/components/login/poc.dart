@@ -1,3 +1,4 @@
+import 'package:bobi_app/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,6 +11,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:bobi_app/constants.dart';
 import 'package:bobi_app/app_id_logic.dart';
 
+import 'package:bobi_app/models/usuario.dart';
+
 final FlutterAppAuth appAuth = FlutterAppAuth();
 const FlutterSecureStorage secureStorage = FlutterSecureStorage();
 
@@ -20,12 +23,12 @@ class PocWidget extends StatelessWidget {
     checkIfLoggedIn = initAction();
   }
 
-  void initAction() async {
+  Future<Usuario> initAction() async {
     // Has the user made a login before? (refresh token is present)
     final storedRefreshToken = await secureStorage.read(key: 'refresh_token');
     if (storedRefreshToken == null) {
       print("RefreshToken Not found");
-      return;
+      return null;
     } else {
       print("found refresh token");
       print(storedRefreshToken);
@@ -34,7 +37,10 @@ class PocWidget extends StatelessWidget {
     // try {
     final AppIdLogic logic = AppIdLogic();
     final accessToken = await logic.refreshToken(storedRefreshToken);
-    print(await logic.getUserDetails(accessToken['access_token']));
+    final rawUserDetails =
+        await logic.getUserDetails(accessToken['access_token']);
+
+    return Usuario(rawUserDetails);
 
     // } catch (e) {}
   }
@@ -60,47 +66,68 @@ class PocWidget extends StatelessWidget {
     await secureStorage.delete(key: 'refresh_token');
   }
 
+  Widget mainScreenLoginWidget(context, _bloc) {
+    return StreamBuilder<String>(
+      stream: _bloc.state,
+      builder: (context, snapshot) {
+        // Listener has NOT registered a callback
+        if (!snapshot.hasData) {
+          // Default login page with logo and button
+          return Container(
+              child: Center(
+                  child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Bobi', style: kWelcomeTitleTextStyle),
+              Container(
+                child: Image.asset('assets/images/bobi_logo.png'),
+                height: MediaQuery.of(context).size.height / 6,
+                margin: EdgeInsets.fromLTRB(0, 70, 0, 40),
+              ),
+              ButtonTheme(
+                minWidth: MediaQuery.of(context).size.width / 1.5,
+                height: MediaQuery.of(context).size.height / 18,
+                child: RaisedButton(
+                  child: Text('ENTRAR'),
+                  onPressed: () {
+                    loginAction();
+                  },
+                ),
+              )
+            ],
+          )));
+        } else {
+          // A callback was found, goto profile screen
+          return FeatureScreen(logoutAction, snapshot.data);
+        }
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     DeepLinkBloc _bloc = Provider.of<DeepLinkBloc>(context);
     return FutureBuilder<Usuario>(
         future: checkIfLoggedIn,
         builder: (BuildContext context, AsyncSnapshot<Usuario> userSnapshot) {
-          // if (user is logged in) {}
-          return StreamBuilder<String>(
-            stream: _bloc.state,
-            builder: (context, snapshot) {
-              // Listener has NOT registered a callback
-              if (!snapshot.hasData) {
-                return Container(
-                    child: Center(
-                        child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Bobi', style: kWelcomeTitleTextStyle),
-                    Container(
-                      child: Image.asset('assets/images/bobi_logo.png'),
-                      height: MediaQuery.of(context).size.height / 6,
-                      margin: EdgeInsets.fromLTRB(0, 70, 0, 40),
-                    ),
-                    ButtonTheme(
-                      minWidth: MediaQuery.of(context).size.width / 1.5,
-                      height: MediaQuery.of(context).size.height / 18,
-                      child: RaisedButton(
-                        child: Text('ENTRAR'),
-                        onPressed: () {
-                          loginAction();
-                        },
-                      ),
-                    )
-                  ],
-                )));
-              } else {
-                // A callback was found, goto profile screen
-                return FeatureScreen(logoutAction, snapshot.data);
+          switch (userSnapshot.connectionState) {
+            // No user logged in
+            case ConnectionState.none:
+            case ConnectionState.waiting:
+              return mainScreenLoginWidget(context, _bloc);
+            case ConnectionState.done:
+              if (userSnapshot.hasData) {
+                return ProfileScreen(logoutAction, userSnapshot.data);
               }
-            },
-          );
+              return mainScreenLoginWidget(context, _bloc);
+            // A user logged in already, go to profile screen
+            default:
+              if (userSnapshot.hasData) {
+                return ProfileScreen(logoutAction, userSnapshot.data);
+              }
+          }
+          return Container(
+              child: Text(userSnapshot.connectionState.toString()));
         });
   }
 }
