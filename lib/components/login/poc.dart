@@ -14,8 +14,10 @@ final FlutterAppAuth appAuth = FlutterAppAuth();
 const FlutterSecureStorage secureStorage = FlutterSecureStorage();
 
 class PocWidget extends StatelessWidget {
+  Future checkIfLoggedIn;
+
   PocWidget() {
-    initAction();
+    checkIfLoggedIn = initAction();
   }
 
   void initAction() async {
@@ -61,39 +63,44 @@ class PocWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DeepLinkBloc _bloc = Provider.of<DeepLinkBloc>(context);
-    return StreamBuilder<String>(
-      stream: _bloc.state,
-      builder: (context, snapshot) {
-        // Listener has NOT registered a callback
-        if (!snapshot.hasData) {
-          return Container(
-              child: Center(
-                  child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('Bobi', style: kWelcomeTitleTextStyle),
-              Container(
-                child: Image.asset('assets/images/bobi_logo.png'),
-                height: MediaQuery.of(context).size.height / 6,
-                margin: EdgeInsets.fromLTRB(0, 70, 0, 40),
-              ),
-              ButtonTheme(
-                minWidth: MediaQuery.of(context).size.width / 1.5,
-                height: MediaQuery.of(context).size.height / 18,
-                child: RaisedButton(
-                  child: Text('ENTRAR'),
-                  onPressed: () {
-                    loginAction();
-                  },
-                ),
-              )
-            ],
-          )));
-        } else {
-          // A callback was found, goto profile screen
-          return ProfileScreen(logoutAction, snapshot.data);
-        }
-      },
-    );
+    return FutureBuilder<Usuario>(
+        future: checkIfLoggedIn,
+        builder: (BuildContext context, AsyncSnapshot<Usuario> userSnapshot) {
+          // if (user is logged in) {}
+          return StreamBuilder<String>(
+            stream: _bloc.state,
+            builder: (context, snapshot) {
+              // Listener has NOT registered a callback
+              if (!snapshot.hasData) {
+                return Container(
+                    child: Center(
+                        child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Bobi', style: kWelcomeTitleTextStyle),
+                    Container(
+                      child: Image.asset('assets/images/bobi_logo.png'),
+                      height: MediaQuery.of(context).size.height / 6,
+                      margin: EdgeInsets.fromLTRB(0, 70, 0, 40),
+                    ),
+                    ButtonTheme(
+                      minWidth: MediaQuery.of(context).size.width / 1.5,
+                      height: MediaQuery.of(context).size.height / 18,
+                      child: RaisedButton(
+                        child: Text('ENTRAR'),
+                        onPressed: () {
+                          loginAction();
+                        },
+                      ),
+                    )
+                  ],
+                )));
+              } else {
+                // A callback was found, goto profile screen
+                return ProfileScreen(logoutAction, snapshot.data);
+              }
+            },
+          );
+        });
   }
 }
