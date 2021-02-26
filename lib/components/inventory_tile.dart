@@ -2,10 +2,15 @@ import 'package:bobi_app/screens/inventory_screen_modification.dart';
 import 'package:flutter/material.dart';
 import 'package:bobi_app/constants.dart';
 import 'package:bobi_app/models/inventory.dart';
+import 'package:bobi_app/server.dart' as server;
 
 class InventoryTile extends StatefulWidget {
-  InventoryTile({@required this.articuloTile, @required this.cantidadTile});
-
+  InventoryTile(Inventory inventory) {
+    this.articuloTile = inventory.getNombreArticulo();
+    this.cantidadTile = inventory.getCantidad().toString();
+    this.inventory = inventory;
+  }
+  Inventory inventory;
   String articuloTile;
   String cantidadTile;
 
@@ -18,7 +23,7 @@ class _InventoryTileState extends State<InventoryTile> {
   Widget build(BuildContext context) {
     return RawMaterialButton(
       onPressed: () async {
-        var inventory = await Navigator.push(
+        var inventoryModificado = await Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => InventoryScreenModification(
@@ -30,12 +35,16 @@ class _InventoryTileState extends State<InventoryTile> {
           ),
         );
 
-        if (inventory != null) {
+        if (inventoryModificado != null) {
+          Inventory inventoryConvertido = inventoryModificado;
           setState(() {
-            Inventory inventoryConvertido = inventory;
-            widget.articuloTile = inventoryConvertido.getArticulo();
+            widget.articuloTile = inventoryConvertido.getNombreArticulo();
             widget.cantidadTile = inventoryConvertido.getCantidad().toString();
           });
+          server.modificarInventory(
+              widget.inventory.getObjectId(),
+              inventoryConvertido.getNombreArticulo(),
+              inventoryConvertido.getCantidad());
         }
       },
       child: Container(

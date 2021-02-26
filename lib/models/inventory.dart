@@ -1,14 +1,14 @@
 import 'package:mongo_dart/mongo_dart.dart';
 
 class Inventory {
-  String articulo;
+  String nombre;
   int cantidad;
   ObjectId id;
 
-  Inventory({this.articulo, this.cantidad});
+  Inventory({this.nombre, this.cantidad, this.id});
 
-  String getArticulo() {
-    return this.articulo;
+  String getNombreArticulo() {
+    return this.nombre;
   }
 
   int getCantidad() {

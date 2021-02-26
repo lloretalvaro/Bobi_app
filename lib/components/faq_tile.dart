@@ -2,10 +2,16 @@ import 'package:bobi_app/screens/faq_screen_modification.dart';
 import 'package:flutter/material.dart';
 import 'package:bobi_app/constants.dart';
 import 'package:bobi_app/models/faq.dart';
+import 'package:bobi_app/server.dart' as server;
 
 class FAQTile extends StatefulWidget {
-  FAQTile({@required this.preguntaTile, @required this.respuestaTile});
+  FAQTile(FAQ faq) {
+    this.preguntaTile = faq.getPregunta();
+    this.respuestaTile = faq.getRespuesta();
+    this.faq = faq;
+  }
 
+  FAQ faq;
   String preguntaTile;
   String respuestaTile;
 
@@ -18,7 +24,7 @@ class _FAQTileState extends State<FAQTile> {
   Widget build(BuildContext context) {
     return RawMaterialButton(
       onPressed: () async {
-        var faq = await Navigator.push(
+        var faqModificado = await Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => FAQScreenModification(
@@ -30,12 +36,14 @@ class _FAQTileState extends State<FAQTile> {
           ),
         );
 
-        if (faq != null) {
+        if (faqModificado != null) {
+          FAQ faqConvertido = faqModificado;
           setState(() {
-            FAQ faqConvertido = faq;
             widget.preguntaTile = faqConvertido.getPregunta();
             widget.respuestaTile = faqConvertido.getRespuesta();
           });
+          server.modificarFaq(widget.faq.getObjectId(),
+              faqConvertido.getPregunta(), faqConvertido.getRespuesta());
         }
       },
       child: Container(

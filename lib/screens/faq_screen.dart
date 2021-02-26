@@ -14,15 +14,8 @@ class FAQScreen extends StatefulWidget {
 class _FAQScreenState extends State<FAQScreen> {
   List<FAQ> faqs = [];
 
-  @override
-  void initState() {
-    super.initState();
-    //faqs =
-    getFaqs();
-  }
-
-  dynamic getFaqs() async {
-    return await server.getAllFAQS();
+  Future<void> pillarFAQS() async {
+    faqs = await server.getAllFAQS();
   }
 
   dynamic subirFAQ(FAQ faqConverted) async {
@@ -34,8 +27,7 @@ class _FAQScreenState extends State<FAQScreen> {
     await server.eliminarFAQ(faq.getObjectId());
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Scaffold faqScreenBody() {
     return Scaffold(
       appBar: AppBar(
         title: Text('Bobi'),
@@ -70,15 +62,51 @@ class _FAQScreenState extends State<FAQScreen> {
                 });
               },
               background: Container(
-                color: Colors.deepPurpleAccent,
+                color: Colors.red,
               ),
               child: FAQTile(
-                  preguntaTile: faqs[index].pregunta,
-                  respuestaTile: faqs[index].respuesta),
+                faqs[index],
+              ),
             );
           },
         ),
       ),
     );
+  }
+
+  Scaffold safeProgressIndicator() {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Bobi'),
+      ),
+      body: SafeArea(
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: pillarFAQS(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+              return safeProgressIndicator();
+            case ConnectionState.waiting:
+              return safeProgressIndicator();
+            case ConnectionState.done:
+              return faqScreenBody();
+
+            default:
+              if (snapshot.hasData) {
+                return faqScreenBody();
+              } else {
+                return safeProgressIndicator();
+              }
+          }
+        });
   }
 }
