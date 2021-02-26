@@ -26,11 +26,7 @@ class PocWidget extends StatelessWidget {
     // Has the user made a login before? (refresh token is present)
     final storedRefreshToken = await secureStorage.read(key: 'refresh_token');
     if (storedRefreshToken == null) {
-      print("RefreshToken Not found");
       return null;
-    } else {
-      print("found refresh token");
-      print(storedRefreshToken);
     }
 
     // try {

@@ -34,6 +34,8 @@ class _NotifyScreenState extends State<NotifyScreen> {
                 padding: EdgeInsets.all(40),
                 child: TextField(
                   controller: messageTextController,
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
                   style: TextStyle(
                     color: Colors.black,
                   ),

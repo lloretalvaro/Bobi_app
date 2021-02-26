@@ -25,7 +25,6 @@ class AppIdLogic {
     var headers = {
       'Authorization':
           'Basic NWMxNmI5ODEtYTUwOC00NWI4LWExMWYtM2IzNGJkOGEzYzQyOk16VmlPVFJqTnpNdE9HVmhOUzAwTVRKakxUazFZamd0WWpNd056ZzJORFZrTnpVNA==',
-      // 'Cookie': '__cfduid=d2590d812445cc75498fa7dc96725e0281613134732' HOW TO GET THIS!
     };
     var request = http.MultipartRequest('POST', Uri.parse(kAUTH_TOKEN));
     request.fields.addAll({
@@ -79,7 +78,6 @@ class AppIdLogic {
   Future<String> getUserDetails(String accessToken) async {
     var headers = {
       'Authorization': 'Bearer $accessToken',
-      // 'Cookie': '__cfduid=d2590d812445cc75498fa7dc96725e0281613134732' how to get this?
     };
     var request = http.Request('GET', Uri.parse(kAUTH_USERINFO));
 

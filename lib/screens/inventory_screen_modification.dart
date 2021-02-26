@@ -33,7 +33,7 @@ class _InventoryScreenModificationState
               Padding(
                 padding: const EdgeInsets.only(top: 20),
                 child: Text(
-                  'Articulo que quieres añadir',
+                  'Artículo que quieres añadir',
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -45,7 +45,7 @@ class _InventoryScreenModificationState
                   ),
                   decoration: widget.preguntaInputDecoration ??
                       kTextFieldInputPreguntaDecoration.copyWith(
-                          hintText: 'Inserta tu articulo...'),
+                          hintText: 'Inserta tu artículo...'),
                   onChanged: (value) => articulo = value,
                 ),
               ),
@@ -53,7 +53,7 @@ class _InventoryScreenModificationState
                 height: 20,
               ),
               Text(
-                'Cantidad del articulo',
+                'Cantidad del artículo',
                 textAlign: TextAlign.center,
               ),
               Container(
@@ -77,7 +77,7 @@ class _InventoryScreenModificationState
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 50),
                 child: CustomButton(
-                    textString: 'Añadir',
+                    textString: 'Guardar',
                     onPress: () {
                       Inventory inventory;
                       if (cantidad != null &&

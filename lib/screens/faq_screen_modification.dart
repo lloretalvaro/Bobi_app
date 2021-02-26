@@ -67,7 +67,7 @@ class _FAQScreenModificationState extends State<FAQScreenModification> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 50),
                 child: CustomButton(
-                    textString: 'Añadir',
+                    textString: 'Guardar',
                     onPress: () {
                       FAQ faq;
                       if (pregunta != '' &&

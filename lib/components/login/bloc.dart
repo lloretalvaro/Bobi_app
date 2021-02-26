@@ -38,15 +38,13 @@ class DeepLinkBloc extends Bloc {
 
     // DICT_KEYS: (access_token, id_token, token_type, expires_in, refresh_token, scope)
     final accessToken = await logic.getAccessTokenFromAuthCode(code);
-    // print(accessToken.keys);
-    // print(accessToken['refresh_token']);
-    // print(accessToken['token_type']);
-    // print(accessToken['access_token']);
-
     final userData = logic.getUserDetails(accessToken['access_token']);
 
+    // Save refresh token in secure storage for future use
     secureStorage.write(
         key: 'refresh_token', value: accessToken['refresh_token']);
+
+    // Add new state to the sink so listeners can use the data
     stateSink.add(await userData);
   }
 
