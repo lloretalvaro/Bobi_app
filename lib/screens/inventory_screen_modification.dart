@@ -1,7 +1,7 @@
 import 'package:bobi_app/models/inventory.dart';
 import 'package:flutter/material.dart';
 import 'package:bobi_app/constants.dart';
-import 'package:bobi_app/components/buttons/custom_button.dart';
+import 'package:bobi_app/components/custom_button.dart';
 
 class InventoryScreenModification extends StatefulWidget {
   static const id = '/inventorymodification';
