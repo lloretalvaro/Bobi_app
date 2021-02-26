@@ -30,6 +30,8 @@ class _NotifyScreenState extends State<NotifyScreen> {
               Container(
                 padding: EdgeInsets.all(40),
                 child: TextField(
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
                   style: TextStyle(
                     color: Colors.black,
                   ),
