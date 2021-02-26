@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:bobi_app/constants.dart';
 import 'package:bobi_app/components/custom_button.dart';
+import 'package:bobi_app/server.dart' as server;
 
 class NotifyScreen extends StatefulWidget {
   static const id = '/notify';
@@ -10,6 +11,8 @@ class NotifyScreen extends StatefulWidget {
 
 class _NotifyScreenState extends State<NotifyScreen> {
   String notificacion;
+  final messageTextController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,6 +33,7 @@ class _NotifyScreenState extends State<NotifyScreen> {
               Container(
                 padding: EdgeInsets.all(40),
                 child: TextField(
+                  controller: messageTextController,
                   style: TextStyle(
                     color: Colors.black,
                   ),
@@ -41,12 +45,10 @@ class _NotifyScreenState extends State<NotifyScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 50),
                 child: CustomButton(
                   textString: 'Enviar',
-                  onPress: () {
+                  onPress: () async {
                     if (notificacion != null && notificacion != '') {
-                      print(notificacion);
-                      //TODO: Aqui guardaría la notificacion en la BD,
-                      // despues python se daría cuenta y mandaría
-                      // dicha notifacion al chat de mensajeria
+                      server.guardarNotificacion(notificacion);
+                      messageTextController.clear();
                     } else {
                       print('Notifacion es nula');
                     }

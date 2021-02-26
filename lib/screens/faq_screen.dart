@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:bobi_app/models/faq.dart';
 import 'package:bobi_app/components/faq_tile.dart';
+import 'package:bobi_app/server.dart' as server;
 
 class FAQScreen extends StatefulWidget {
   static const id = '/FAQ';
@@ -11,20 +12,27 @@ class FAQScreen extends StatefulWidget {
 }
 
 class _FAQScreenState extends State<FAQScreen> {
-  List<FAQ> faqs = [
-    FAQ(
-        pregunta: '¿Cuál es la mejor forma de comprar tus producstos?',
-        respuesta: 'Utilizando mi página web, www.cooltech.com'),
-    FAQ(
-        pregunta: '¿Cuál es la mejor forma de comprar tus producstos?',
-        respuesta: 'Utilizando mi página web, www.cooltech.com'),
-    FAQ(
-        pregunta: '¿Cuál es la mejor forma de comprar tus producstos?',
-        respuesta: 'Utilizando mi página web, www.cooltech.com'),
-    FAQ(
-        pregunta: '¿Cuál es la mejor forma de comprar tus producstos?',
-        respuesta: 'Utilizando mi página web, www.cooltech.com'),
-  ];
+  List<FAQ> faqs = [];
+
+  @override
+  void initState() {
+    super.initState();
+    //faqs =
+    getFaqs();
+  }
+
+  dynamic getFaqs() async {
+    return await server.getAllFAQS();
+  }
+
+  dynamic subirFAQ(FAQ faqConverted) async {
+    return await server.guardarFAQ(
+        faqConverted.getPregunta(), faqConverted.getRespuesta());
+  }
+
+  void borrarFAQ(FAQ faq) async {
+    await server.eliminarFAQ(faq.getObjectId());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +47,10 @@ class _FAQScreenState extends State<FAQScreen> {
               await Navigator.pushNamed(context, FAQScreenModification.id);
           setState(() {
             if (faq != null) {
-              faqs.add(faq);
-              //TODO: Tendriamos que guardar aqui el nuevo faq en la BD
+              FAQ faqConverted = faq;
+              faqs.add(faqConverted);
+              dynamic objectId = subirFAQ(faqConverted);
+              faqConverted.setObjectId(objectId);
             }
           });
         },
@@ -55,6 +65,7 @@ class _FAQScreenState extends State<FAQScreen> {
                 Scaffold.of(context)
                     .showSnackBar(SnackBar(content: Text('FAQ eliminado')));
                 setState(() {
+                  borrarFAQ(faqs[index]);
                   faqs.removeAt(index);
                 });
               },

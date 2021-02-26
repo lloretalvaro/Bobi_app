@@ -1,4 +1,3 @@
-import 'package:bobi_app/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -98,7 +97,8 @@ class PocWidget extends StatelessWidget {
           )));
         } else {
           // A callback was found, goto profile screen
-          return FeatureScreen(logoutAction, snapshot.data);
+          Usuario usuario = Usuario(snapshot.data);
+          return FeatureScreen(logoutAction, usuario);
         }
       },
     );
@@ -117,13 +117,13 @@ class PocWidget extends StatelessWidget {
               return mainScreenLoginWidget(context, _bloc);
             case ConnectionState.done:
               if (userSnapshot.hasData) {
-                return ProfileScreen(logoutAction, userSnapshot.data);
+                return FeatureScreen(logoutAction, userSnapshot.data);
               }
               return mainScreenLoginWidget(context, _bloc);
             // A user logged in already, go to profile screen
             default:
               if (userSnapshot.hasData) {
-                return ProfileScreen(logoutAction, userSnapshot.data);
+                return FeatureScreen(logoutAction, userSnapshot.data);
               }
           }
           return Container(

@@ -5,14 +5,20 @@ import 'faq_screen.dart';
 import 'notify_screen.dart';
 import 'inventory_screen.dart';
 import 'package:bobi_app/models/usuario.dart';
+import 'package:bobi_app/server.dart' as server;
 
 class FeatureScreen extends StatelessWidget {
   //TODO: Aqui tendriamos que pasarle el token
   // como parametro al constructor de FeatureScreen y
   // al resto de pantallas por debajo
-  FeatureScreen(Function logout, jsonUsuario) {
-    this.usuario = Usuario(jsonUsuario);
-    this.logoutAction = logout;
+  FeatureScreen(Function logoutAction, Usuario usuario) {
+    inicializarServidor();
+    this.usuario = usuario;
+    this.logoutAction = logoutAction;
+  }
+
+  void inicializarServidor() async {
+    await server.iniciarServer();
   }
 
   Usuario usuario;
