@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:bobi_app/constants.dart';
-import 'package:bobi_app/components/custom_button.dart';
+import 'package:bobi_app/components/buttons/custom_button.dart';
 
 class NotifyScreen extends StatefulWidget {
   static const id = '/notify';

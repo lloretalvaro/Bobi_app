@@ -1,15 +1,12 @@
 import 'package:bobi_app/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:bobi_app/components/feature_row.dart';
+import 'package:bobi_app/components/feature/feature_row.dart';
 import 'faq_screen.dart';
 import 'notify_screen.dart';
 import 'inventory_screen.dart';
 import 'package:bobi_app/models/usuario.dart';
 
 class FeatureScreen extends StatelessWidget {
-  //TODO: Aqui tendriamos que pasarle el token
-  // como parametro al constructor de FeatureScreen y
-  // al resto de pantallas por debajo
   FeatureScreen(Function logout, jsonUsuario) {
     this.usuario = Usuario(jsonUsuario);
     this.logoutAction = logout;

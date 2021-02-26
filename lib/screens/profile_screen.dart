@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:bobi_app/components/custom_button.dart';
+import 'package:bobi_app/components/buttons/custom_button.dart';
 import 'package:bobi_app/models/usuario.dart';
 
 class ProfileScreen extends StatelessWidget {

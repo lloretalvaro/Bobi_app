@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'feature_button.dart';
+import '../buttons/feature_button.dart';
 import 'feature_explanation.dart';
 
 class FeatureRow extends StatelessWidget {
