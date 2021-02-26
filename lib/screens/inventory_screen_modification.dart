@@ -77,7 +77,7 @@ class _InventoryScreenModificationState
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 50),
                 child: CustomButton(
-                    textString: 'Añadir',
+                    textString: 'Guardar',
                     onPress: () {
                       Inventory inventory;
                       if (cantidad != null &&
