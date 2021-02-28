@@ -43,7 +43,6 @@
     <li>
       <a href="#getting-started">Instalación rápida</a>
       <ul>
-        <li><a href="#instalación">Instalación</a></li>
         <li><a href="#deploy">Deploy</a></li>
       </ul>
     </li>
@@ -77,23 +76,9 @@ El proyecto se ha basado sobretodo en el  uso de microservicios proporcionados p
 <!-- GETTING STARTED -->
 ## Getting started
 
-
-### Instalación
-
-1. Install python 3
-2. Instalar requisitos con pip
-   ```sh
-   pip install -r requirements.txt
-   ```
-3. Correr el script python "botpython.py"
-   ```sh
-   python botpython.py
-   ```
-
 ### Deploy
 
-Hacer deploy en los diferentes clouds es inmediato, pues el repositorio tiene los archivos necesarios para hacer deploy.
-Siga las instrucciones de su cloud favorito para pushear el contenido.
+La aplicación está ya preparada para hacer deploy en las tiendas de iOS y Android. Además, si hubiera interés se podría hacer también para versiones de escritorio.
 
 <!-- LICENSE -->
 ## Licencia
