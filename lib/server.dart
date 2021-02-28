@@ -34,6 +34,7 @@ void guardarNotificacion(String textoNotificacion) async {
   if (response.statusCode == 200) {
     print(await response.stream.bytesToString());
   } else {
+    print(textoNotificacion);
     print(response.reasonPhrase);
   }
 }

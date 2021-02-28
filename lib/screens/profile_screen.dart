@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:bobi_app/components/custom_button.dart';
 import 'package:bobi_app/models/usuario.dart';
+import 'welcome_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen(Function logoutAction, Usuario usuario) {
@@ -39,14 +40,16 @@ class ProfileScreen extends StatelessWidget {
               SizedBox(height: 20.0),
               name == null ? Text('Nombre: usuario') : Text('Nombre: $name'),
               CustomButton(
-                  textString: 'Cerrar sesion',
-                  onPress: () {
-                    logoutAction();
-                    Navigator.popUntil(
-                      context,
-                      ModalRoute.withName('/'),
-                    );
-                  }),
+                textString: 'Cerrar sesion',
+                onPress: () {
+                  logoutAction();
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => WelcomeScreen()),
+                    (Route<dynamic> route) => false,
+                  );
+                },
+              ),
             ],
           ),
         ),

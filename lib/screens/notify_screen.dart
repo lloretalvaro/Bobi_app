@@ -3,6 +3,12 @@ import 'package:bobi_app/constants.dart';
 import 'package:bobi_app/components/custom_button.dart';
 import 'package:bobi_app/server.dart' as server;
 
+enum StatusNotificacion {
+  noEnviado,
+  enviadoExitoso,
+  envioFallado,
+}
+
 class NotifyScreen extends StatefulWidget {
   static const id = '/notify';
   @override
@@ -12,6 +18,7 @@ class NotifyScreen extends StatefulWidget {
 class _NotifyScreenState extends State<NotifyScreen> {
   String notificacion;
   final messageTextController = TextEditingController();
+  StatusNotificacion statusNotificacion = StatusNotificacion.noEnviado;
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +41,6 @@ class _NotifyScreenState extends State<NotifyScreen> {
                 padding: EdgeInsets.all(40),
                 child: TextField(
                   controller: messageTextController,
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null,
                   style: TextStyle(
                     color: Colors.black,
                   ),
@@ -43,16 +48,43 @@ class _NotifyScreenState extends State<NotifyScreen> {
                   onChanged: (value) => notificacion = value,
                 ),
               ),
+              statusNotificacion == StatusNotificacion.noEnviado
+                  ? SizedBox()
+                  : statusNotificacion == StatusNotificacion.enviadoExitoso
+                      ? Icon(
+                          Icons.check_circle_rounded,
+                          color: Colors.green,
+                          size: 50,
+                        )
+                      : Icon(
+                          Icons.error,
+                          color: Colors.red,
+                          size: 50,
+                        ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 50),
                 child: CustomButton(
                   textString: 'Enviar',
                   onPress: () async {
                     if (notificacion != null && notificacion != '') {
-                      server.guardarNotificacion(notificacion);
-                      messageTextController.clear();
+                      try {
+                        await server.guardarNotificacion(notificacion);
+                        messageTextController.clear();
+                        setState(() {
+                          statusNotificacion =
+                              StatusNotificacion.enviadoExitoso;
+                        });
+                      } catch (e) {
+                        setState(() {
+                          statusNotificacion = StatusNotificacion.envioFallado;
+                        });
+                      } finally {
+                        notificacion = '';
+                      }
                     } else {
-                      print('Notifacion es nula');
+                      setState(() {
+                        statusNotificacion = StatusNotificacion.envioFallado;
+                      });
                     }
                   },
                 ),
