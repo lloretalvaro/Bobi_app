@@ -12,24 +12,22 @@ class InventoryScreen extends StatefulWidget {
 }
 
 class _InventoryScreenState extends State<InventoryScreen> {
-  List<Inventory> inventoryList = [
-    Inventory(articulo: 'Samsung S21', cantidad: 9),
-    Inventory(articulo: 'Samsung S21', cantidad: 9),
-    Inventory(articulo: 'Samsung S21', cantidad: 9),
-    Inventory(articulo: 'Samsung S21', cantidad: 9),
-  ];
+  List<Inventory> inventoryList = [];
+
+  Future<void> pillarInventory() async {
+    inventoryList = await server.getAllInventory();
+  }
 
   dynamic subirArticulo(Inventory inventoryConverted) async {
-    return await server.guardarArticulo(
-        inventoryConverted.getArticulo(), inventoryConverted.getCantidad());
+    return await server.guardarArticulo(inventoryConverted.getNombreArticulo(),
+        inventoryConverted.getCantidad());
   }
 
   void borrarArticulo(Inventory inventory) async {
     await server.eliminarArticulo(inventory.getObjectId());
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Scaffold inventoryScreenBody() {
     return Scaffold(
       appBar: AppBar(
         title: Text('Bobi'),
@@ -66,15 +64,51 @@ class _InventoryScreenState extends State<InventoryScreen> {
                 });
               },
               background: Container(
-                color: Colors.deepPurpleAccent,
+                color: Colors.red,
               ),
               child: InventoryTile(
-                  articuloTile: inventoryList[index].articulo,
-                  cantidadTile: inventoryList[index].cantidad.toString()),
+                inventoryList[index],
+              ),
             );
           },
         ),
       ),
     );
+  }
+
+  Scaffold safeProgressIndicator() {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Bobi'),
+      ),
+      body: SafeArea(
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: pillarInventory(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+              return safeProgressIndicator();
+            case ConnectionState.waiting:
+              return safeProgressIndicator();
+            case ConnectionState.done:
+              return inventoryScreenBody();
+
+            default:
+              if (snapshot.hasData) {
+                return inventoryScreenBody();
+              } else {
+                return safeProgressIndicator();
+              }
+          }
+        });
   }
 }

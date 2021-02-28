@@ -92,12 +92,48 @@ Future<List<FAQ>> getAllFAQS() async {
   return faqs;
 }
 
-List<Inventory> getAllInventory() {
+Inventory decodeArticle(mapaArticle) {
+  Inventory article = Inventory(
+      id: mapaArticle['_id'],
+      nombre: mapaArticle['nombre'],
+      cantidad: mapaArticle['cantidad']);
+
+  return article;
+}
+
+Future<List<Inventory>> getAllInventory() async {
   List<Inventory> inventoryList = [];
+
+  final collection = db.collection('Articulo');
+
+  List jsonInventory = await collection.find().toList();
+
+  for (var jsonArticle in jsonInventory) {
+    Inventory article = decodeArticle(jsonArticle);
+    if (article != null) {
+      inventoryList.add(article);
+    }
+  }
+
   return inventoryList;
 }
 
-/** 
-  await notificacionCollection.remove(
-      where.eq('_id', ObjectId.fromHexString("6038bbd8facb046e26499f4e")));
-*/
+void modificarInventory(ObjectId objectId, String nombre, int cantidad) async {
+  final collection = db.collection('Articulo');
+
+  dynamic article = await collection.findOne({"_id": objectId});
+  article["nombre"] = nombre;
+  article["cantidad"] = cantidad;
+
+  await collection.save(article);
+}
+
+void modificarFaq(ObjectId objectId, String pregunta, String respuesta) async {
+  final collection = db.collection('FAQ');
+
+  dynamic faq = await collection.findOne({"_id": objectId});
+  faq["pregunta"] = pregunta;
+  faq["respuesta"] = respuesta;
+
+  await collection.save(faq);
+}

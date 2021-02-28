@@ -85,7 +85,7 @@ class _InventoryScreenModificationState
                           articulo != null &&
                           articulo != '') {
                         inventory =
-                            Inventory(articulo: articulo, cantidad: cantidad);
+                            Inventory(nombre: articulo, cantidad: cantidad);
                       }
                       Navigator.pop(context, inventory);
                     }),
