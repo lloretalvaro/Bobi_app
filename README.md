@@ -1,4 +1,5 @@
 <!-- PROJECT LOGO -->
+<h2>Equipo: TrioFundador</h2>
 <br />
 <p align="center">
   <a href="https://github.com/lloretalvaro/Bobi_backend/">
