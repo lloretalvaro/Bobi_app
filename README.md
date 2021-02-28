@@ -5,6 +5,11 @@
     <img src="docs/img/bobiReadmeLogo.png" alt="Bobi" height="180" >
   </a>
 
+<h4>
+<p align="center">
+    Repositorio dedicado a la parte de la aplicación para el proyecto Bobi del equipo TrioFundador.
+  </h4>
+  <br />
   <p align="center">
     Bobi es un asistente inteligente para el pequeño negocio.
   <br />
